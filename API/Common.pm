@@ -81,7 +81,7 @@ sub extendUrl {
 		$url =~ s/\?&/?/;
 		$url =~ s/\?$//;
 
-		main::INFOLOG && $log->info($url);
+		main::INFOLOG && $log->info( $url =~ s/\Q$dk\E/.../r );
 	}
 
 

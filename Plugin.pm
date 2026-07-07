@@ -1003,6 +1003,19 @@ sub get_item_info_by_url {
 		});
 	}
 
+	elsif (my $track_id = track_key($args->{url})) {
+		$args->{track_id} = $track_id;
+
+		get_track($client, sub {
+			my $tracks = shift;
+			if ($tracks && ref $tracks && $tracks->{items}) {
+				return $cb->($tracks->{items});
+			}
+
+			$cb->($tracks, @_);
+		}, $params, $args);
+	}
+
 	else {
 		Plugins::Bandcamp::API::get_item_info_by_url($client,
 			sub {
