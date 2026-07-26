@@ -7,7 +7,7 @@ use lib catdir($Bin, 'Plugins', 'Bandcamp', 'lib');
 
 use Encode;
 use HTML::TreeBuilder;
-use JSON::XS::VersionOneAndTwo;
+use JSON::XS qw(decode_json encode_json);
 
 use Scalar::Util qw(blessed);
 use HTML::Entities;
@@ -92,7 +92,7 @@ sub get_album_info {
 
 					if ($html =~ s/.*data-tralbum="([^"]+)".*/$1/) {
 						$html =~ s/&quot;/"/sg;
-						my $info = eval { from_json( Encode::encode('utf8', $html) ) };
+						my $info = eval { decode_json( Encode::encode('utf8', $html) ) };
 
 						my $album = {
 							url => $album_url
@@ -163,7 +163,7 @@ sub get_playlist_page {
 			if ($playlistPage) {
 				my $data = $playlistPage->attr('data-blob');
 
-				$data = eval { from_json( Encode::encode( 'utf8', $data) ) };
+				$data = eval { decode_json( Encode::encode( 'utf8', $data) ) };
 
 				if ($@ || !$data) {
 					$log->error($@);
@@ -222,7 +222,7 @@ sub get_fan_page {
 			if ($collection) {
 				my $data = $collection->attr('data-blob');
 
-				$data = eval { from_json( Encode::encode( 'utf8', $data) ) };
+				$data = eval { decode_json( Encode::encode( 'utf8', $data) ) };
 
 				if ($@ || !$data) {
 					$log->error($@);
@@ -371,7 +371,7 @@ sub search {
 			my @items = $tree->look_down("_tag", "li", "class", qr/searchresult data-search/);
 
 			foreach my $item (@items) {
-				my $searchInfo = eval { from_json($item->attr('data-search')) };
+				my $searchInfo = eval { decode_json($item->attr('data-search')) };
 				$log->error("Failed to parse search result item: $@") if $@;
 
 				my $type = $searchInfo->{type} if $searchInfo;
@@ -762,7 +762,7 @@ sub get_daily_show {
 			if (scalar $dailies) {
 				my $data = $dailies->attr('data-player-infos');
 
-				$data = eval { from_json( Encode::encode( 'utf8', $data) ) };
+				$data = eval { decode_json( Encode::encode( 'utf8', $data) ) };
 
 				if ($@ || !$data || !ref $data) {
 					$log->error($@);
@@ -925,7 +925,7 @@ sub _get {
 	);
 
 	if ($params->{postBody}) {
-		$http->post($url, 'Content-Type' => 'application/json', to_json($params->{postBody}));
+		$http->post($url, 'Content-Type' => 'application/json', encode_json($params->{postBody}));
 	}
 	else {
 		$http->get($url);

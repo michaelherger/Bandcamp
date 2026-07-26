@@ -4,7 +4,6 @@ use strict;
 
 use File::Spec::Functions qw(catdir);
 use HTTP::Cookies;
-use JSON::XS::VersionOneAndTwo;
 
 use Slim::Networking::SimpleSyncHTTP;
 use Slim::Utils::Log;

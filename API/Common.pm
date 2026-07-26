@@ -11,7 +11,7 @@ our @EXPORT = qw(
 
 use Digest::MD5 qw(md5_hex);
 use Encode;
-use JSON::XS::VersionOneAndTwo;
+use JSON::XS qw(decode_json encode_json);
 use URI::Escape qw(uri_escape_utf8);
 
 use Slim::Utils::Log;

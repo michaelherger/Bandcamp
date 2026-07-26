@@ -2,7 +2,6 @@ package Plugins::Bandcamp::Plugin;
 
 use strict;
 use base qw(Slim::Plugin::OPMLBased);
-use JSON::XS::VersionOneAndTwo;
 use Tie::Cache::LRU;
 
 use Slim::Formats::RemoteMetadata;
