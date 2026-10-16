@@ -1097,6 +1097,8 @@ sub metadata_provider {
 			duration => $cached->{duration},
 			cover    => $cached->{image},
 			bitrate  => "128" . Slim::Utils::Strings::string('KBPS'),
+			samplesize => 16,
+			samplerate => 44100,
 		};
 	}
 
